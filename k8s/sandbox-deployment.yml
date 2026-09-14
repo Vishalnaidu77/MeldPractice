@@ -12,9 +12,10 @@ spec:
       labels:
         app: sandbox
     spec:
+      serviceAccountName: resource-manager
       containers:
       - name: sandbox-container
-        image: sandbox:latest
+        image: sandbox-practice:latest
         resources:
           limits:
             memory: "128Mi"
