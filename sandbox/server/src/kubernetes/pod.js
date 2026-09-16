@@ -13,7 +13,10 @@ export async function createPod(sandboxId){
             containers: [
                 {
                     name: `sandbox-container`,
-                    image: "template",
+                    // Keep this distinct from the API image (`sandbox-practice`).
+                    // The generic `template` tag can easily point at an image built
+                    // from the wrong Docker build context.
+                    image: "sandbox-template:latest",
                     imagePullPolicy: "IfNotPresent",
                     ports: [{ containerPort: 5173,  name: 'http' }],
                     resources: [
