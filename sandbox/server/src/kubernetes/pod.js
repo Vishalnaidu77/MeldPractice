@@ -11,10 +11,24 @@ export async function createPod(sandboxId){
             }
         },
         spec: {
-            volume: [
+            volumes: [
                 {
                     name: "workspace-volume",
                     emptyDir: {}
+                }
+            ],
+            initContainers: [
+                {
+                    name: "init-container",
+                    image: "sandbox-template:latest",
+                    imagePullPolicy: "IfNotPresent",
+                    command: ["sh", "-c", "cp -r /workspace/. /seed/"],
+                    volumeMounts: [
+                        {
+                            name: "workspace-volume",
+                            mountPath: "/seed"
+                        }
+                    ]
                 }
             ],
             containers: [
