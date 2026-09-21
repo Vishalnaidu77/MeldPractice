@@ -19,8 +19,15 @@ export async function createService(sandboxId) {
                 {
                     port: 80,
                     targetPort: 5173,
-                    name: 'http'
-                }
+                    name: 'http',
+                    protocol: "TCP"
+                },
+                {
+                    port: 8000,
+                    targetPort: 8000,
+                    name: 'agent-http',
+                    protocol: "TCP"
+                },
             ]
         }
     };

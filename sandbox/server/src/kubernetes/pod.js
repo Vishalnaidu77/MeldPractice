@@ -1,3 +1,4 @@
+import e from "express";
 import { k8sCoreApi } from "./config.js";
 
 export async function createPod(sandboxId){
@@ -10,6 +11,12 @@ export async function createPod(sandboxId){
             }
         },
         spec: {
+            volume: [
+                {
+                    name: "workspace-volume",
+                    emptyDir: {}
+                }
+            ],
             containers: [
                 {
                     name: `sandbox-container`,
@@ -23,6 +30,30 @@ export async function createPod(sandboxId){
                         {
                             limits: { cpu: "500m", memory: "512Mi" },
                             requests: { cpu: "250m", memory: "256Mi" }
+                        }
+                    ],
+                    volumeMounts: [
+                        {
+                            name: "workspace-volume",
+                            mountPath: "/workspace"
+                        }
+                    ]
+                },
+                {
+                    image: "sandbox-agent:latest",
+                    imagePullPolicy: "IfNotPresent",
+                    name: "agent-container",
+                    ports: [{ containerPort: 8000, name: 'agent-http' }],
+                    resources: [
+                        {
+                            limits: { cpu: "500m", memory: "512Mi" },
+                            requests: { cpu: "250m", memory: "256Mi" }
+                        }
+                 ],
+                    volumeMounts: [
+                        {
+                            name: "workspace-volume",
+                            mountPath: "/workspace"
                         }
                     ]
                 }
