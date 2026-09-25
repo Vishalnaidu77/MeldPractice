@@ -79,6 +79,6 @@ export async function createPod(sandboxId){
         return response;
     } catch (error) {
         console.error("Error creating pod:", error);
-        throw error;
+        throw error;    
     }
 }
