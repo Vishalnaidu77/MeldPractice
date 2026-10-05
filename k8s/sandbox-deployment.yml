@@ -15,7 +15,7 @@ spec:
       serviceAccountName: resource-manager
       containers:
       - name: sandbox-container
-        image: sandbox-practice:latest
+        image: sandbox-practice:v2
         resources:
           limits:
             memory: "128Mi"

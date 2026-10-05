@@ -1,7 +1,7 @@
-import app from "./src/app.js";
+import app from "./src/app";
 
-const PORT = 8001;
+const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
-    console.log(`AI Orchestration server running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 })

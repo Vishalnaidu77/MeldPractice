@@ -5,7 +5,7 @@ import morgan from 'morgan';
 const app = express();
 app.use(morgan('combined'))
 
-app.get("/api/router/health", (req, res) => {
+app.get("/api/router/healthz", (req, res) => {
     res.status(200).json({ status: "ok" });
 });
 
