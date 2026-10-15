@@ -22,7 +22,7 @@ const result = await agent.invoke({
     messages: [
         {
             role: "user",
-            content: "Replace current code with login form UI, and update the `src/App.jsx` file."
+            content: "Add Neo-Brutalism theme style in the login form."
         }
     ]
 })

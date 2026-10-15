@@ -3,7 +3,7 @@ import * as z from 'zod'
 import { tool } from 'langchain'
 import { Config } from '../config/config.js'
 
-const SANDBOX_URL = Config.SANDBOX_URL;
+const SANDBOX_URL = `http://01a13b16-014e-7418-8acb-831617aa7ebf.agent.localhost`;
 
 export const listFiles = tool(
     async() => {
@@ -14,7 +14,7 @@ export const listFiles = tool(
             return JSON.stringify(res.data)
         } catch (err) {
             console.log('List files tool failed', err);
-            throw new Error(`Failed to list files: ${err}`)
+            throw new Error(`Failed to list files: ${err.message}`)
         }
     },
     { 

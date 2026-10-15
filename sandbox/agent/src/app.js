@@ -113,7 +113,7 @@ app.post("/read-files", async (req, res) => {
  * @returns {Object} - Results of the updates
  */
 
-app.patch("/update-files", async (req, res) => {
+app.patch("/update-files", async (req, res) => { 
     const updates = req.body.updates;
 
     if (!updates || !Array.isArray(updates)) {
