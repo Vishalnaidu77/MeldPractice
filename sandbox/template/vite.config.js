@@ -9,4 +9,9 @@ export default defineConfig({
     allowedHosts: true
   },
   plugins: [react()],
+  watch: {
+    usePolling: true,
+    interval: 300,
+    ignored: ['node_modules']
+  }
 })

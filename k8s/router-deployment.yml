@@ -13,7 +13,7 @@ spec:
         app:  router
     spec:
       containers:
-      - image:  router:latest
+      - image:  router
         name:  router
         resources:
           requests:

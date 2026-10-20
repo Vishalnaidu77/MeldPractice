@@ -22,9 +22,11 @@ const result = await agent.invoke({
     messages: [
         {
             role: "user",
-            content: "Add Neo-Brutalism theme style in the login form."
+            content: "Expected `}` but found `:` [ src/App.jsx:218:18 ], can you fix it for me?"
         }
     ]
 })
 
 console.log(result.messages.at(-1).content)
+
+export default agent;
