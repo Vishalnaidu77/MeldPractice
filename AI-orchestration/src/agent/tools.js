@@ -3,7 +3,7 @@ import * as z from 'zod'
 import { tool } from 'langchain'
 import { Config } from '../config/config.js'
 
-const SANDBOX_URL = `http://01a1598e-ec27-7325-addf-9b5d5003f555.agent.localhost`;
+const SANDBOX_URL = `http://sandbox-service-01a1598e-ec27-7325-addf-9b5d5003f555:8000`;
 
 export const listFiles = tool(
     async() => {

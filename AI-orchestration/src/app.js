@@ -11,6 +11,6 @@ app.get("/api/ai/healthz", (req, res) => {
     res.status(200).json({ status: "ok" })
 })
 
-app.use("api/ai", agentRouter)
+app.use("/api/ai", agentRouter)
 
 export default app;

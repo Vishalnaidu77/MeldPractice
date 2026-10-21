@@ -4,7 +4,7 @@ import { listFiles, readFiles, updateFiles } from './tools.js'
 import { Config } from '../config/config.js'
 
 const model = new ChatOpenRouter({
-    model: "nvidia/nemotron-3-super-120b-a12b:free",
+    model: "minimax/minimax-m3.1-flash:free",
     apiKey: Config.OPENROUTER_API_KEY
 })
 
@@ -17,16 +17,5 @@ const agent = new createAgent({
     - Use update-files to update files in the current directory.
     `,  
 })
-
-const result = await agent.invoke({
-    messages: [
-        {
-            role: "user",
-            content: "Expected `}` but found `:` [ src/App.jsx:218:18 ], can you fix it for me?"
-        }
-    ]
-})
-
-console.log(result.messages.at(-1).content)
 
 export default agent;
