@@ -4,7 +4,7 @@ import { listFiles, readFiles, updateFiles } from './tools.js'
 import { Config } from '../config/config.js'
 
 const model = new ChatOpenRouter({
-    model: "minimax/minimax-m3.1-flash:free",
+    model: "nvidia/nemotron-3.5-super-vl:free",
     apiKey: Config.OPENROUTER_API_KEY
 })
 

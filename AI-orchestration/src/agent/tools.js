@@ -3,13 +3,11 @@ import * as z from 'zod'
 import { tool } from 'langchain'
 import { Config } from '../config/config.js'
 
-const SANDBOX_URL = `http://sandbox-service-01a1598e-ec27-7325-addf-9b5d5003f555:8000`;
-
 export const listFiles = tool(
-    async() => {
+    async({}, config) => {
         try {
             console.log('Running List files tool');
-            const res = await axios.get(`${SANDBOX_URL}/list-files`);
+            const res = await axios.get(`$http://sandbox-service-${config.context.projectId}:8000/list-files`);
             console.log('List files tool completed', res.data);
             return JSON.stringify(res.data)
         } catch (err) {
@@ -25,11 +23,11 @@ export const listFiles = tool(
 )
 
 export const readFiles = tool(
-    async({ files }) => {
+    async({ files }, config) => {
         try {
             console.log('Running read files tool');
             const fileQuery = files.join(",");
-            const res = await axios.post(`${SANDBOX_URL}/read-files?files=${fileQuery}`);
+            const res = await axios.post(`http://sandbox-service-${config.context.projectId}:8000/read-files?files=${fileQuery}`);
             console.log('Read files tool completed', res.data);
             return JSON.stringify(res.data.results);
         } catch (err) {
@@ -47,10 +45,10 @@ export const readFiles = tool(
 )
 
 export const updateFiles = tool(
-    async({ updates }) => {
+    async({ updates }, config) => {
         try {
             console.log('Running update files tool');
-            const res = await axios.patch(`${SANDBOX_URL}/update-files`, { updates });
+            const res = await axios.patch(`http://sandbox-service-${config.context.projectId}:8000/update-files`, { updates });
             console.log('Update files tool completed', res.data);
             return JSON.stringify(res.data.results)
         } catch (err) {
