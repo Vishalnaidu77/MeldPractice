@@ -6,9 +6,10 @@ import { Config } from '../config/config.js'
 export const listFiles = tool(
     async({}, config) => {
         try {
-            console.log('Running List files tool');
-            const res = await axios.get(`$http://sandbox-service-${config.context.projectId}:8000/list-files`);
-            console.log('List files tool completed', res.data);
+
+            config.writer(`Listing files in the current directory for project...`);
+            const res = await axios.get(`http://sandbox-service-${config.context.projectId}:8000/list-files`);
+
             return JSON.stringify(res.data)
         } catch (err) {
             console.log('List files tool failed', err);
@@ -25,10 +26,11 @@ export const listFiles = tool(
 export const readFiles = tool(
     async({ files }, config) => {
         try {
-            console.log('Running read files tool');
+
+            config.writer(`Reading files: ${files.join(", ")} in the current directory for project...`);
             const fileQuery = files.join(",");
             const res = await axios.post(`http://sandbox-service-${config.context.projectId}:8000/read-files?files=${fileQuery}`);
-            console.log('Read files tool completed', res.data);
+
             return JSON.stringify(res.data.results);
         } catch (err) {
             console.log('Read files tool failed', err);
@@ -47,9 +49,12 @@ export const readFiles = tool(
 export const updateFiles = tool(
     async({ updates }, config) => {
         try {
-            console.log('Running update files tool');
+
+            config.writer(`Updating files: ${updates.map(u => u.file).join(", ")} in the current directory for project...`);
+            
             const res = await axios.patch(`http://sandbox-service-${config.context.projectId}:8000/update-files`, { updates });
-            console.log('Update files tool completed', res.data);
+            
+            config.writer(`Files updated successfully: ${updates.map(u => u.file).join(", ")}`);
             return JSON.stringify(res.data.results)
         } catch (err) {
             console.log('Update files tool failed', err);
