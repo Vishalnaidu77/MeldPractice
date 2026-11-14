@@ -38,6 +38,16 @@ function getAgentProxy(sandboxId) {
             target,
             changeOrigin: true,
             ws: true,
+            timeout: 30000,
+            proxyTimeout: 30000,
+            xfwd: true,
+            onError(err, req, res) {
+                console.error(`Proxy error for agent ${sandboxId}:`, err.message);
+                res.status(504).json({
+                    error: 'Gateway Timeout',
+                    message: `Agent sandbox ${sandboxId} did not respond in time.`
+                });
+            }
         })
     }
 
@@ -45,15 +55,24 @@ function getAgentProxy(sandboxId) {
 }
 
 app.use((req, res, next) => {
-    const host = req.headers.host;
-    const sandboxId = host.split(".")[0];
+    const host = (req.headers.host || '').split(':')[0];
+    const parts = host.split('.');
+    const sandboxId = parts[0];
+    const domainType = parts[1];
 
-    if(host.split(".")[1] === "agent"){
+    if (!sandboxId || !domainType) {
+        return next();
+    }
+
+    if (domainType === 'agent') {
         return getAgentProxy(sandboxId)(req, res, next);
-    } else if(host.split(".")[1] === "preview"){
+    }
+
+    if (domainType === 'preview') {
         return getProxy(sandboxId)(req, res, next);
     }
-    
+
+    return next();
 });
 
 export default app;

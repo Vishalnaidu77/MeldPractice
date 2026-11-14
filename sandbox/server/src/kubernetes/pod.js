@@ -52,7 +52,7 @@ export async function createPod(sandboxId){
                     ]
                 },
                 {
-                    image: "sandbox-agent:v2",
+                    image: "sandbox-agent:latest",
                     imagePullPolicy: "IfNotPresent",
                     name: "agent-container",
                     ports: [{ containerPort: 8000, name: 'agent-http' }],

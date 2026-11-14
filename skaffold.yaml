@@ -17,7 +17,6 @@ build:
       context: sandbox/agent
       docker:
         dockerfile: Dockerfile
-
     - image: router
       context: sandbox/router
       docker:
