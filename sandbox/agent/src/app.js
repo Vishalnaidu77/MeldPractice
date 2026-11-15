@@ -27,7 +27,7 @@ const io = new Server(httpServer, {
     }
 });
 
-const shell = process.env.SHELL || 'bash ';
+const shell = process.env.SHELL || 'bash';
 
 // spawn pty process
 const ptyProcess = pty.spawn(shell, [], {

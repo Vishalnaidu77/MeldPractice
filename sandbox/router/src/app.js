@@ -1,6 +1,7 @@
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware'
 import morgan from 'morgan';
+import http from 'http';
 
 const app = express();
 app.use(morgan('combined'))
@@ -75,4 +76,26 @@ app.use((req, res, next) => {
     return next();
 });
 
-export default app;
+const server = http.createServer(app);
+
+server.on('upgrade', (req, socket, head) => {
+    const host = (req.headers.host || '').split(':')[0];
+    const [sandboxId, domainType] = host.split('.');
+
+    if (!sandboxId || !domainType) {
+        socket.destroy();
+        return;
+    }
+
+    if (domainType === 'agent') {
+        return getAgentProxy(sandboxId).upgrade(req, socket, head);
+    }
+
+    if (domainType === 'preview') {
+        return getProxy(sandboxId).upgrade(req, socket, head);
+    }
+
+    socket.destroy();
+});
+
+export default server;
