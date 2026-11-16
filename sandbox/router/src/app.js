@@ -24,7 +24,6 @@ function getProxy(sandboxId) {
         proxies[sandboxId] = createProxyMiddleware({
             target,
             changeOrigin: true,
-            ws: true,
         })
     }
 
@@ -38,7 +37,6 @@ function getAgentProxy(sandboxId) {
         agentProxies[sandboxId] = createProxyMiddleware({
             target,
             changeOrigin: true,
-            ws: true,
             timeout: 30000,
             proxyTimeout: 30000,
             xfwd: true,

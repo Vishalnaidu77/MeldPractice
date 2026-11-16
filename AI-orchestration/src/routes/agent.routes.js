@@ -9,7 +9,8 @@ agentRouter.post("/invoke", async (req, res) => {
         res.writeHead(200, {
             'content-type': 'text/event-stream',
             'cache-control': 'no-cache',
-            'connection': 'keep-alive'
+            'connection': 'keep-alive',
+            'x-accel-buffering': 'no'
         })
 
         const { message, projectId } = req.body;
@@ -28,12 +29,21 @@ agentRouter.post("/invoke", async (req, res) => {
         })
 
         for await (const chunk of response){
+            if (res.destroyed) break;
             console.log(chunk)
             res.write(`data: ${JSON.stringify(chunk)}\n\n`)
         }
-        res.status(200).json({ result: response.messages })
+        if (!res.destroyed) {
+            res.write('event: complete\ndata: [DONE]\n\n')
+            res.end()
+        }
     } catch (err) {
-        res.status(500).json({ error: err.message })
+        if (res.headersSent) {
+            res.write(`event: error\ndata: ${JSON.stringify({ error: err.message })}\n\n`)
+            res.end()
+        } else {
+            res.status(500).json({ error: err.message })
+        }
     }
 })
 

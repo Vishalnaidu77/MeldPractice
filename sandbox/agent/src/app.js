@@ -6,6 +6,7 @@ import http from 'http';
 import { Server } from 'socket.io';
 import pty from 'node-pty';
 import os from 'os';
+import cors from 'cors';
 
 const WORKING_DIR = '/workspace';
 
@@ -14,6 +15,9 @@ const httpServer = http.createServer(app);
 
 app.use(express.json())
 app.use(morgan('combined'));
+app.use(cors({
+    origin: "*",
+}))
 
 app.get("/", (req, res) => {
     res.status(200).json({ message: "Hello from the sandbox agent!" });
