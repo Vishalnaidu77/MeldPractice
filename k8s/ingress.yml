@@ -32,6 +32,16 @@ spec:
               port: 
                 number: 80
 
+    - http:
+        paths:
+        - pathType: Prefix
+          path: "/auth/google"
+          backend:
+            service:
+              name: auth-service
+              port: 
+                number: 80
+
     - host: "*.preview.localhost"
       http:
         paths:

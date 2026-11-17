@@ -21,6 +21,14 @@ build:
         infer:
           - "src/**"
 
+    - image: auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        infer:
+          - "src/**"
+
     - image: router
       context: sandbox/router
       docker:
@@ -46,3 +54,5 @@ manifests:
     - k8s/router-service.yml
     - k8s/sandbox-deployment.yml
     - k8s/sandbox-service.yml  
+    - k8s/auth-deployment.yml
+    - k8s/auth-service.yml

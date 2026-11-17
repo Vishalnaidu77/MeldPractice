@@ -60,4 +60,12 @@ app.get(
   },
 );
 
+app.get("/_status/healthz", (req, res) => {
+  res.status(200).json({ status: "ok" });
+}); 
+
+app.get("/_status/readyz", (req, res) => {
+  res.status(200).json({ status: "ready" });
+});
+
 export default app;
