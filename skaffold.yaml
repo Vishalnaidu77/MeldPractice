@@ -17,6 +17,10 @@ build:
       context: sandbox/agent
       docker:
         dockerfile: Dockerfile
+      sync:
+        infer:
+          - "src/**"
+
     - image: router
       context: sandbox/router
       docker:
