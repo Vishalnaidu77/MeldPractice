@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import { v7 as uuid } from 'uuid'
 import { createPod } from './kubernetes/pod.js';
 import { createService } from './kubernetes/service.js';
+import { createSandboxKey } from './config/redis.js';
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.post("/api/sandbox/start", async (req, res) => {
 
         await createPod(sandboxId);
         await createService(sandboxId);
+        await createSandboxKey(sandboxId);
 
         return res.status(200).json({ 
             message: "Sandbox environment created successfully", 
