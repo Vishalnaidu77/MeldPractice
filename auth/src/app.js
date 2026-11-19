@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import userModel from "./models/user.model.js";
+import { sendAuthNotification } from "./service/mq.js";
 
 const app = express();
 
@@ -54,6 +55,14 @@ app.get(
       });
       await newUser.save();
     }
+
+    await sendAuthNotification({
+      userId: req.user.id,
+      displayName: req.user.displayName,
+      email: req.user.emails?.[0]?.value,
+      action: "Gooogle OAuth Login",
+      timestamp: new Date().toISOString(),
+    })
 
     // Send the token to the client
     res.json({ token });

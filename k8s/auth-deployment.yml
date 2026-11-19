@@ -61,6 +61,12 @@ spec:
               name:  google
               key:  JWT_SECRET
 
+        - name:  QUEUE_URL
+          valueFrom:
+            secretKeyRef:
+              name:  database
+              key:  QUEUE_URL
+
         ports:
         - containerPort:  8000
           name:  auth-http
