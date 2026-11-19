@@ -2,6 +2,7 @@ import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware'
 import morgan from 'morgan';
 import http from 'http';
+import { refreshTTl } from './config/redis.js';
 
 const app = express();
 app.use(morgan('combined'))
@@ -53,11 +54,13 @@ function getAgentProxy(sandboxId) {
     return agentProxies[sandboxId];
 }
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     const host = (req.headers.host || '').split(':')[0];
     const parts = host.split('.');
     const sandboxId = parts[0];
     const domainType = parts[1];
+
+    await refreshTTl(sandboxId); // Refresh TTL for the sandbox key in Redis
 
     if (!sandboxId || !domainType) {
         return next();
